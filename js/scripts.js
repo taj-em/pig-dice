@@ -31,19 +31,20 @@ function Player(playerName) {
 Player.prototype.keepScore = function (id) {
   let diceNum = diceNumber();
   if (diceNum === 1) {
+    playerData.players[id].playerScore = 0;
     playerData.finalScores[id] = 0;
-  } else {
+  } else if (diceNum !== 1) {
     this.playerScore += diceNum;
   }
 };
 
 Player.prototype.calculate = function(id) {
-  if (playerData.finalScores[id] !== 0) {
+  if (playerData.players[id].playerScore !== 0) {
     if (playerData.players[id].playerScore === undefined) {
       playerData.players[id].playerScore = 0;
     }
     playerData.players[id].keepScore(id);
-    console.log(playerData.players[id].playerScore)
+    console.log("ID: " + id + "; Score: " + playerData.players[id].playerScore)
   } else {endRound()};
 };
 
