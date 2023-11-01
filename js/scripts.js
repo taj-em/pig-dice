@@ -5,36 +5,22 @@ function PlayerData() {
   this.currentId = 0;
 };
 
-let playerData = new PlayerData();
-
-// Assign an id to a player object and use bracket notation to
-// create an object with a key of player.id and a value of the player object
 PlayerData.prototype.addPlayer = function (player) {
   player.id = this.assignId();
   this.players[player.id] = player;
 };
 
-// Adds 1 to currentId and returns the value
 PlayerData.prototype.assignId = function () {
   this.currentId += 1;
   return this.currentId;
 };
 
 
-// Creates a player object with the playerName and playerNumber properties
 function Player(playerName) {
   this.playerName = playerName;
 };
 
-
-
-function rollDice(event) {
-  if (playerData.players[1].playerScore === 0) {
-    playerData.players[2].calculate(2);
-  } else {playerData.players[1].calculate(1)};
-}
-
-Player.prototype.calculate = function(id) {
+Player.prototype.calculate = function (id) {
   if (playerData.players[id].playerScore !== 0) {
     if (playerData.players[id].playerScore === undefined) {
       playerData.players[id].playerScore = 0;
@@ -47,12 +33,25 @@ Player.prototype.calculate = function(id) {
 Player.prototype.keepScore = function (id) {
   let diceNum = diceNumber();
   if (diceNum === 1) {
-    playerData.players[id].playerScore = 0;
+    this.playerScore = 0;
+    scoreBoard();
     endRound();
   } else if (diceNum !== 1) {
     this.playerScore += diceNum;
+    scoreBoard();
   }
 };
+
+
+// Business Logic
+
+let playerData = new PlayerData();
+
+function rollDice(event) {
+  if (playerData.players[1].playerScore === 0) {
+    playerData.players[2].calculate(2);
+  } else { playerData.players[1].calculate(1) };
+}
 
 function diceNumber() {
   min = Math.ceil(1);
@@ -62,32 +61,26 @@ function diceNumber() {
 
 function endRound(event) {
   if (playerData.players[2].playerScore === undefined) {
-  playerData.finalScores[1] = playerData.players[1].playerScore;
-  playerData.players[1].playerScore = 0;
+    playerData.finalScores[1] = playerData.players[1].playerScore;
+    playerData.players[1].playerScore = 0;
   } else if (playerData.players[2].playerScore >= 0) {
     playerData.finalScores[2] = playerData.players[2].playerScore;
     playerData.players[2].playerScore = 0;
-    scoreBoard();
-};
+    winScreen();
+  };
 }
-
-
-// Business Logic
-
-function scoreBoard() {
-  document.getElementById("hold").classList.add("hidden");
-  document.getElementById("roll-die").classList.add("hidden");
-  let playerOneScore =  playerData.finalScores[1];
-  console.log("Player One Score: " + playerOneScore)
-  let playerTwoScore =  playerData.finalScores[2];
-  console.log("Player Two Score: " + playerTwoScore)
-}
-
-
-
 
 // UI Logic
 
+function scoreBoard() {
+  const playerOneSpan = document.getElementById("player1-span");
+  const playerTwoSpan = document.getElementById("player2-span");
+  if (playerData.players[2].playerScore === undefined) {
+    playerOneSpan.innerText = playerData.players[1].playerScore;
+  } else if (playerData.players[2].playerScore) {
+    playerTwoSpan.innerText = playerData.players[2].playerScore;
+  }
+}
 function playerCreation(event) {
   event.preventDefault();
   const playerOneName = document.getElementById("player-one-name").value;
@@ -98,8 +91,30 @@ function playerCreation(event) {
   playerData.addPlayer(playerTwo);
   console.log("Confirm Character Creation: " + playerData.players[1].playerName);
   console.log("Confirm Character Creation: " + playerData.players[2].playerName);
+  document.getElementById("player-one-heading").innerText = playerOneName + ": ";
+  document.getElementById("player-two-heading").innerText = playerTwoName + ": ";
   document.getElementById("player-creation").classList.add("hidden");
 };
+
+function winScreen() {
+  document.getElementById("game-UI").classList.add("hidden");
+  document.getElementById("score-board").classList.add("hidden");
+  document.getElementById("win-screen").classList.remove("hidden");
+  const playerOneScore = playerData.finalScores[1];
+  const playerTwoScore = playerData.finalScores[2];
+  const playerOneDisplay = document.getElementById("player-one-display");
+  const playerTwoDisplay = document.getElementById("player-two-display");
+  const winnerDisplay = document.getElementById("winner-display");
+  playerOneDisplay.innerText = (playerData.players[1].playerName + ": " + playerOneScore);
+  playerTwoDisplay.innerText = (playerData.players[2].playerName + ": " + playerTwoScore);
+  if (playerOneScore === playerTwoScore) {
+    winnerDisplay.innerText = "It's a Draw!"
+  } else if (playerOneScore > playerTwoScore) {
+    winnerDisplay.innerText = (playerData.players[1].playerName + " wins!!!")
+  } else if (playerOneScore < playerTwoScore) {
+    winnerDisplay.innerText = (playerData.players[2].playerName + " wins!!!")
+  }
+}
 
 window.addEventListener("load", function () {
   this.document.querySelector("form").addEventListener("submit", playerCreation)
