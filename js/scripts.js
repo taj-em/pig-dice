@@ -26,17 +26,13 @@ function Player(playerName) {
   this.playerName = playerName;
 };
 
-// Adds the value of a dice roll unless the roll = 1 
-// to the player's count when called
-Player.prototype.keepScore = function (id) {
-  let diceNum = diceNumber();
-  if (diceNum === 1) {
-    playerData.players[id].playerScore = 0;
-    playerData.finalScores[id] = 0;
-  } else if (diceNum !== 1) {
-    this.playerScore += diceNum;
-  }
-};
+
+
+function rollDice(event) {
+  if (playerData.players[1].playerScore === 0) {
+    playerData.players[2].calculate(2);
+  } else {playerData.players[1].calculate(1)};
+}
 
 Player.prototype.calculate = function(id) {
   if (playerData.players[id].playerScore !== 0) {
@@ -45,37 +41,46 @@ Player.prototype.calculate = function(id) {
     }
     playerData.players[id].keepScore(id);
     console.log("ID: " + id + "; Score: " + playerData.players[id].playerScore)
-  } else {endRound()};
-};
-
-
-
-function endRound() {
-  if (playerData.players[2].playerScore) {
-    playerData.finalScores[2] = playerData.players[2].playerScore;
-    // Trigger scoreboard function
   };
-  playerData.finalScores[1] = playerData.players[1].playerScore;
 };
 
-// Returns a random number between 1 and 6
+Player.prototype.keepScore = function (id) {
+  let diceNum = diceNumber();
+  if (diceNum === 1) {
+    playerData.players[id].playerScore = 0;
+    playerData.finalScores[id] = 0;
+    endRound();
+  } else if (diceNum !== 1) {
+    this.playerScore += diceNum;
+  }
+};
+
 function diceNumber() {
   min = Math.ceil(1);
   max = Math.floor(6);
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-function rollDice(event) {
-  if (playerData.finalScores[1] === 0) {
-    playerData.players[2].calculate(2);
-  }
-    playerData.players[1].calculate(1);
+function endRound(event) {
+  if (playerData.players[2].playerScore === undefined) {
+  playerData.finalScores[1] = playerData.players[1].playerScore;
+  playerData.players[1].playerScore = 0;
+  } else if (playerData.players[2].playerScore >= 0) {
+    playerData.finalScores[2] = playerData.players[2].playerScore;
+    playerData.players[2].playerScore = 0;
+    scoreBoard();
+};
 }
 
 
 // Business Logic
 
-
+function scoreBoard() {
+  let playerOneScore =  playerData.finalScores[1];
+  console.log("Player One Score: " + playerOneScore)
+  let playerTwoScore =  playerData.finalScores[2];
+  console.log("Player Two Score: " + playerTwoScore)
+}
 
 
 
@@ -97,4 +102,5 @@ function playerCreation(event) {
 window.addEventListener("load", function () {
   this.document.querySelector("form").addEventListener("submit", playerCreation)
   this.document.querySelector("button#roll-die").addEventListener("click", rollDice)
+  this.document.querySelector("button#hold").addEventListener("click", endRound)
 });
