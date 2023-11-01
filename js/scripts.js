@@ -30,7 +30,7 @@ function Player(playerName) {
 // to the player's count when called
 Player.prototype.keepScore = function () {
   let diceNum = diceNumber();
-  if (diceNum === 1) {
+  if (diceNum !== 1) {
     this.playerScore = 0;
   } else {
     this.playerScore += diceNum;
@@ -68,13 +68,13 @@ function roundSystem() {
     console.log("Confirm Player Score: " + playerData.players[id].playerScore);
     while (playerData.players[id].playerScore !== 0) {
       if (playerData.players[id].playerScore === undefined) {
-        playerData.players[id].playerScore = 1;
+        playerData.players[id].playerScore = 0;
       }
       playerData.players[id].keepScore();
       console.log(playerData.players[id].playerScore)
-    }
-  });
-};
+    } console.log("break");
+    });
+  };
 
 
 
