@@ -1,4 +1,3 @@
-// Creates a PlayerList object with players, scores and ID properties
 function PlayerData() {
   this.players = {};
   this.finalScores = {};
@@ -26,7 +25,7 @@ Player.prototype.calculate = function (id) {
       playerData.players[id].playerScore = 0;
     }
     playerData.players[id].keepScore(id);
-    console.log("ID: " + id + "; Score: " + playerData.players[id].playerScore)
+    console.log("ID: " + id + "; Score: " + playerData.players[id].playerScore);
   };
 };
 
@@ -39,7 +38,7 @@ Player.prototype.keepScore = function (id) {
   } else if (diceNum !== 1) {
     this.playerScore += diceNum;
     scoreBoard();
-  }
+  };
 };
 
 
@@ -51,7 +50,7 @@ function rollDice(event) {
   if (playerData.players[1].playerScore === 0) {
     playerData.players[2].calculate(2);
   } else { playerData.players[1].calculate(1) };
-}
+};
 
 function diceNumber() {
   min = Math.ceil(1);
@@ -60,15 +59,18 @@ function diceNumber() {
 };
 
 function endRound(event) {
-  if (playerData.players[2].playerScore === undefined) {
+  if (playerData.players[2].playerScore === undefined && playerData.players[1].playerScore !== undefined) {
     playerData.finalScores[1] = playerData.players[1].playerScore;
     playerData.players[1].playerScore = 0;
+  } else if (playerData.players[1].playerScore === undefined) {
+    playerData.players[1].playerScore = 0;
+    playerData.finalScores[1] = playerData.players[1].playerScore;
   } else if (playerData.players[2].playerScore >= 0) {
     playerData.finalScores[2] = playerData.players[2].playerScore;
     playerData.players[2].playerScore = 0;
     winScreen();
   };
-}
+};
 
 // UI Logic
 
@@ -93,6 +95,8 @@ function playerCreation(event) {
   console.log("Confirm Character Creation: " + playerData.players[2].playerName);
   document.getElementById("player-one-heading").innerText = playerOneName + ": ";
   document.getElementById("player-two-heading").innerText = playerTwoName + ": ";
+  document.getElementById("player1-span").innerText = "0";
+  document.getElementById("player2-span").innerText = "0";
   document.getElementById("player-creation").classList.add("hidden");
 };
 
@@ -110,14 +114,28 @@ function winScreen() {
   if (playerOneScore === playerTwoScore) {
     winnerDisplay.innerText = "It's a Draw!"
   } else if (playerOneScore > playerTwoScore) {
-    winnerDisplay.innerText = (playerData.players[1].playerName + " wins!!!")
+    winnerDisplay.innerText = (playerData.players[1].playerName + " wins!!!");
   } else if (playerOneScore < playerTwoScore) {
-    winnerDisplay.innerText = (playerData.players[2].playerName + " wins!!!")
+    winnerDisplay.innerText = (playerData.players[2].playerName + " wins!!!");
   }
 }
 
+function reset(event) {
+  document.getElementById("game-UI").classList.remove("hidden");
+document.getElementById("score-board").classList.remove("hidden");
+document.getElementById("win-screen").classList.add("hidden");
+document.getElementById("player1-span").innerText = "0";
+document.getElementById("player2-span").innerText = "0";
+document.getElementById("player-one-display").innerText = "";
+document.getElementById("player-two-display").innerText = "";
+document.getElementById("winner-display").innerText = "";
+playerData.players[1].playerScore = undefined;
+playerData.players[2].playerScore = undefined;
+}
+
 window.addEventListener("load", function () {
-  this.document.querySelector("form").addEventListener("submit", playerCreation)
-  this.document.querySelector("button#roll-die").addEventListener("click", rollDice)
-  this.document.querySelector("button#hold").addEventListener("click", endRound)
+  this.document.querySelector("form").addEventListener("submit", playerCreation);
+  this.document.querySelector("button#roll-die").addEventListener("click", rollDice);
+  this.document.querySelector("button#hold").addEventListener("click", endRound);
+  this.document.querySelector("button#reset-btn").addEventListener("click", reset);
 });
