@@ -9,13 +9,13 @@ let playerData = new PlayerData();
 
 // Assign an id to a player object and use bracket notation to
 // create an object with a key of player.id and a value of the player object
-PlayerData.prototype.addPlayer = function(player) {
+PlayerData.prototype.addPlayer = function (player) {
   player.id = this.assignId();
   this.players[player.id] = player;
 };
 
 // Adds 1 to currentId and returns the value
-PlayerData.prototype.assignId = function() {
+PlayerData.prototype.assignId = function () {
   this.currentId += 1;
   return this.currentId;
 };
@@ -28,13 +28,13 @@ function Player(playerName) {
 
 // Adds the value of a dice roll unless the roll = 1 
 // to the player's count when called
-Player.prototype.keepScore = function(playerScore) {
-  let diceNum = rollDice();
+Player.prototype.keepScore = function () {
+  let diceNum = diceNumber();
   if (diceNum === 1) {
-    playerScore = 0;
-    endRound();
+    this.playerScore = 0;
+  } else {
+    this.playerScore += diceNum;
   }
-  playerScore += diceNum;
 };
 
 
@@ -56,17 +56,22 @@ function diceNumber() {
 };
 
 function rollDice(event) {
-console.log("Confirm Roll Dice");
+  roundSystem();
 }
 
 // Business Logic
 function roundSystem() {
-  const rollDie = document.getElementById("rollDie");
-  playerArray = Object.keys(playerData.players)
-  playerArray.forEach(id => {
-    console.log("Confirm For Each loop: " + id.playerName);
+  const rollDie = document.getElementById("roll-die");
+  idArray = Object.keys(playerData.players)
+  console.log("Confirm ID Array: " + idArray);
+  idArray.forEach(id => {
+    console.log("Confirm Player Score: " + playerData.players[id].playerScore);
     while (playerData.players[id].playerScore !== 0) {
-      rollDie.addEventListener("click", rollDice)
+      if (playerData.players[id].playerScore === undefined) {
+        playerData.players[id].playerScore = 1;
+      }
+      playerData.players[id].keepScore();
+      console.log(playerData.players[id].playerScore)
     }
   });
 };
@@ -78,18 +83,18 @@ function roundSystem() {
 // UI Logic
 
 function playerCreation(event) {
-event.preventDefault();
-const playerOneName = document.getElementById("player-one-name").value;
-const playerTwoName = document.getElementById("player-two-name").value;
-let playerOne = new Player(playerOneName);
-let playerTwo = new Player(playerTwoName);
-playerData.addPlayer(playerOne);
-playerData.addPlayer(playerTwo);
-console.log("Confirm Character Creation: " + playerData.players[1].playerName);
-console.log("Confirm Character Creation: " + playerData.players[2].playerName);
-roundSystem();
+  event.preventDefault();
+  const playerOneName = document.getElementById("player-one-name").value;
+  const playerTwoName = document.getElementById("player-two-name").value;
+  let playerOne = new Player(playerOneName);
+  let playerTwo = new Player(playerTwoName);
+  playerData.addPlayer(playerOne);
+  playerData.addPlayer(playerTwo);
+  console.log("Confirm Character Creation: " + playerData.players[1].playerName);
+  console.log("Confirm Character Creation: " + playerData.players[2].playerName);
 };
 
-window.addEventListener("load", function() {
-this.document.querySelector("form").addEventListener("submit", playerCreation)
+window.addEventListener("load", function () {
+  this.document.querySelector("form").addEventListener("submit", playerCreation)
+  this.document.querySelector("button#roll-die").addEventListener("click", rollDice)
 });
