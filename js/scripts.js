@@ -48,7 +48,6 @@ Player.prototype.keepScore = function (id) {
   let diceNum = diceNumber();
   if (diceNum === 1) {
     playerData.players[id].playerScore = 0;
-    playerData.finalScores[id] = 0;
     endRound();
   } else if (diceNum !== 1) {
     this.playerScore += diceNum;
@@ -76,6 +75,8 @@ function endRound(event) {
 // Business Logic
 
 function scoreBoard() {
+  document.getElementById("hold").classList.add("hidden");
+  document.getElementById("roll-die").classList.add("hidden");
   let playerOneScore =  playerData.finalScores[1];
   console.log("Player One Score: " + playerOneScore)
   let playerTwoScore =  playerData.finalScores[2];
@@ -97,6 +98,7 @@ function playerCreation(event) {
   playerData.addPlayer(playerTwo);
   console.log("Confirm Character Creation: " + playerData.players[1].playerName);
   console.log("Confirm Character Creation: " + playerData.players[2].playerName);
+  document.getElementById("player-creation").classList.add("hidden");
 };
 
 window.addEventListener("load", function () {
