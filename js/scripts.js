@@ -28,13 +28,13 @@ function Player(playerName) {
 
 // Adds the value of a dice roll unless the roll = 1 
 // to the player's count when called
-Player.prototype.keepScore = function(player) {
+Player.prototype.keepScore = function(playerScore) {
   let diceNum = rollDice();
   if (diceNum === 1) {
-    player.playerScore = 0;
+    playerScore = 0;
     endRound();
   }
-  player.playerScore += diceNum;
+  playerScore += diceNum;
 };
 
 
@@ -49,11 +49,31 @@ function endRound(player) {
 };
 
 // Returns a random number between 1 and 6
-function rollDice() {
+function diceNumber() {
   min = Math.ceil(1);
   max = Math.floor(6);
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+function rollDice(event) {
+console.log("Confirm Roll Dice");
+}
+
+// Business Logic
+function roundSystem() {
+  const rollDie = document.getElementById("rollDie");
+  playerArray = Object.keys(playerData.players)
+  playerArray.forEach(id => {
+    console.log("Confirm For Each loop: " + id.playerName);
+    while (playerData.players[id].playerScore !== 0) {
+      rollDie.addEventListener("click", rollDice)
+    }
+  });
+};
+
+
+
+
 
 // UI Logic
 
@@ -67,6 +87,7 @@ playerData.addPlayer(playerOne);
 playerData.addPlayer(playerTwo);
 console.log("Confirm Character Creation: " + playerData.players[1].playerName);
 console.log("Confirm Character Creation: " + playerData.players[2].playerName);
+roundSystem();
 };
 
 window.addEventListener("load", function() {
