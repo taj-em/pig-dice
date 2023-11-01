@@ -28,24 +28,33 @@ function Player(playerName) {
 
 // Adds the value of a dice roll unless the roll = 1 
 // to the player's count when called
-Player.prototype.keepScore = function () {
+Player.prototype.keepScore = function (id) {
   let diceNum = diceNumber();
-  if (diceNum !== 1) {
-    this.playerScore = 0;
+  if (diceNum === 1) {
+    playerData.finalScores[id] = 0;
   } else {
     this.playerScore += diceNum;
   }
 };
 
+Player.prototype.calculate = function(id) {
+  if (playerData.finalScores[id] !== 0) {
+    if (playerData.players[id].playerScore === undefined) {
+      playerData.players[id].playerScore = 0;
+    }
+    playerData.players[id].keepScore(id);
+    console.log(playerData.players[id].playerScore)
+  } else {endRound()};
+};
 
 
-function endRound(player) {
-  if (PlayerList.players[2].playerScore) {
+
+function endRound() {
+  if (playerData.players[2].playerScore) {
+    playerData.finalScores[2] = playerData.players[2].playerScore;
     // Trigger scoreboard function
   };
-  // End round, switch player
-  // Trigger function to send the player number and player score to an object
-  playerData.finalScores[player.id] = player.playerScore;
+  playerData.finalScores[1] = playerData.players[1].playerScore;
 };
 
 // Returns a random number between 1 and 6
@@ -56,25 +65,15 @@ function diceNumber() {
 };
 
 function rollDice(event) {
-  roundSystem();
+  if (playerData.finalScores[1] === 0) {
+    playerData.players[2].calculate(2);
+  }
+    playerData.players[1].calculate(1);
 }
 
+
 // Business Logic
-function roundSystem() {
-  const rollDie = document.getElementById("roll-die");
-  idArray = Object.keys(playerData.players)
-  console.log("Confirm ID Array: " + idArray);
-  idArray.forEach(id => {
-    console.log("Confirm Player Score: " + playerData.players[id].playerScore);
-    while (playerData.players[id].playerScore !== 0) {
-      if (playerData.players[id].playerScore === undefined) {
-        playerData.players[id].playerScore = 0;
-      }
-      playerData.players[id].keepScore();
-      console.log(playerData.players[id].playerScore)
-    } console.log("break");
-    });
-  };
+
 
 
 
