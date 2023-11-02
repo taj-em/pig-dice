@@ -87,12 +87,14 @@ function playerCreation(event) {
   event.preventDefault();
   const playerOneName = document.getElementById("player-one-name").value;
   const playerTwoName = document.getElementById("player-two-name").value;
+  const playAgainstAI = document.getElementById("play-with-AI").value;
   let playerOne = new Player(playerOneName);
   let playerTwo = new Player(playerTwoName);
   playerData.addPlayer(playerOne);
   playerData.addPlayer(playerTwo);
-  console.log("Confirm Character Creation: " + playerData.players[1].playerName);
-  console.log("Confirm Character Creation: " + playerData.players[2].playerName);
+  if (playAgainstAI === "1") {
+    console.log("Confirm AI selection");
+  }
   document.getElementById("player-one-heading").innerText = playerOneName + ": ";
   document.getElementById("player-two-heading").innerText = playerTwoName + ": ";
   document.getElementById("player1-span").innerText = "0";

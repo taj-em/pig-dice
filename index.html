@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <link href="css/styles.css" rel="stylesheet">
   <script src="js/scripts.js"></script>
@@ -7,21 +8,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pig Dice</title>
 </head>
+
 <body>
   <h1 id="title">Pig Dice</h1>
   <button id="reset-btn">Reset</button>
   <div id="player-creation">
-  <form>
-    <div id="player-one">
-      <h2>Player #1</h2>
-      <input id="player-one-name" type="text" placeholder="Enter Name:" required>
-    </div>
-    <div id="player-two">
-      <h2>Player #2</h2>
-      <input id="player-two-name" type="text" placeholder="Enter Name:" required>
-    </div>
-    <button id="creation-submit-btn" type="submit">Confirm</button>
-  </form>
+    <form>
+      <label for="play-with-AI">Player #2 computer:
+        <input type="checkbox" id="play-with-AI" value="1" name="play-with-AI">
+      </label>
+      <div id="player-one">
+        <h2>Player #1</h2>
+        <input id="player-one-name" type="text" placeholder="Enter Name:" required>
+      </div>
+      <div id="player-two">
+        <h2>Player #2</h2>
+        <input id="player-two-name" type="text" placeholder="Enter Name:" required>
+      </div>
+      <button id="creation-submit-btn" type="submit">Confirm</button>
+    </form>
   </div>
   <div id="game-UI">
     <button id="roll-die">Roll Die</button>
@@ -39,4 +44,5 @@
     <h3><span id="winner-display"></span></h3>
   </div>
 </body>
+
 </html>
