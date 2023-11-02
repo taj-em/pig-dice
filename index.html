@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <script src="js/scripts.js"></script>
   <meta charset="UTF-8">
@@ -10,63 +11,67 @@
 </head>
 
 <body>
-  <h1 id="title">Pig Dice</h1>
-  <button id="reset-btn">Reset</button>
-  <div id="game-setup">
-    <div id="game-mode">
-      <form id="game-mode-form">
-        <label for="two-player">Player Vs. Player
-          <input type="radio" id="two-player" value="0" name="game-mode" checked>
-        </label>
-        <label for="vs-computer">Player Vs. CPU
-          <input type="radio" id="vs-computer" value="1" name="game-mode">
-        </label>
-        <button type="submit" id="confirm-game-mode">Confirm Game Mode</button>
-      </form>
-    </div>
-    <div id="difficulty" class="hidden">
-      <form id="difficulty-form">
-        <label for="easy">Easy CPU
-          <input type="radio" id="easy" value="1" name="AI-difficulty">
-        </label>
-        <label for="normal">Normal CPU
-          <input type="radio" id="normal" value="2" name="AI-difficulty" checked>
-        </label>
-        <label for="hard">Hard CPU
-          <input type="radio" id="hard" value="3" name="AI-difficulty">
-        </label>
-        <button type="submit" id="confirm-difficulty">Confirm Difficulty</button>
-      </form>
-    </div>
-  </div>
-  <div id="player-creation" class="hidden">
-    <form id="player-creation-form">
-      <div id="player-one">
-        <h2>Player #1</h2>
-        <input id="player-one-name" type="text" placeholder="Enter Name:" required>
+  <div class="container big-div">
+    <div class="row">
+      <h1 id="title">Pig Dice</h1>
+      <button id="reset-btn" class="hidden">Reset</button>
+      <div id="game-setup" class="col">
+        <div id="game-mode">
+          <form id="game-mode-form">
+            <label for="two-player">Player Vs. Player
+              <input type="radio" id="two-player" value="0" name="game-mode" checked>
+            </label>
+            <label for="vs-computer">Player Vs. CPU
+              <input type="radio" id="vs-computer" value="1" name="game-mode">
+            </label>
+            <button type="submit" id="confirm-game-mode">Confirm Game Mode</button>
+          </form>
+        </div>
+        <div id="difficulty" class="hidden col">
+          <form id="difficulty-form">
+            <label for="easy">Easy CPU
+              <input type="radio" id="easy" value="1" name="AI-difficulty">
+            </label>
+            <label for="normal">Normal CPU
+              <input type="radio" id="normal" value="2" name="AI-difficulty" checked>
+            </label>
+            <label for="hard">Hard CPU
+              <input type="radio" id="hard" value="3" name="AI-difficulty">
+            </label>
+            <button type="submit" id="confirm-difficulty">Confirm Difficulty</button>
+          </form>
+        </div>
       </div>
-      <div id="player-two">
-        <h2>Player #2</h2>
-        <input id="player-two-name" type="text" placeholder="Enter Name:" required>
+      <div id="player-creation" class="hidden row">
+        <form id="player-creation-form">
+          <div id="player-one">
+            <h2>Player #1</h2>
+            <input id="player-one-name" type="text" placeholder="Enter Name:" required>
+          </div>
+          <div id="player-two">
+            <h2>Player #2</h2>
+            <input id="player-two-name" type="text" placeholder="Enter Name:" required>
+          </div>
+          <button id="creation-submit-btn" type="submit">Confirm</button>
+        </form>
       </div>
-      <button id="creation-submit-btn" type="submit">Confirm</button>
-    </form>
-  </div>
-  <div id="game-UI">
-    <button id="roll-die">Roll Die</button>
-    <button id="hold">Hold</button>
-    <button id="play-with-AI" class="hidden" name="play-with-AI">CPU round</button>
-  </div>
-  <div id="score-board">
-    <h3 id="player-one-heading"></h3><span id="player1-span"></span>
-    <h3 id="player-two-heading"></h3><span id="player2-span"></span>
-  </div>
-  <div id="win-screen" class="hidden">
-    <h3><span id="player-one-display"></span></h3>
-    <br>
-    <h3><span id="player-two-display"></span></h3>
-    <br>
-    <h3><span id="winner-display"></span></h3>
+      <div id="game-UI" class="row">
+        <button id="roll-die" class="hidden">Roll Die</button>
+        <button id="hold" class="hidden">Hold</button>
+        <button id="play-with-AI" class="hidden" name="play-with-AI">CPU round</button>
+      </div>
+      <div id="score-board" class="row">
+        <h3 id="player-one-heading"></h3><span id="player1-span"></span>
+        <h3 id="player-two-heading"></h3><span id="player2-span"></span>
+      </div>
+      <div id="win-screen" class="hidden col">
+        <h3><span id="player-one-display"></span></h3>
+        <br>
+        <h3><span id="player-two-display"></span></h3>
+        <br>
+        <h3><span id="winner-display"></span></h3>
+      </div>
+    </div>
   </div>
 </body>
 

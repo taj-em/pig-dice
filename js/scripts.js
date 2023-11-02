@@ -104,12 +104,15 @@ function playerCreation(event) {
   document.getElementById("player1-span").innerText = "0";
   document.getElementById("player2-span").innerText = "0";
   document.getElementById("player-creation").classList.add("hidden");
+  document.getElementById("roll-die").classList.remove("hidden");
+  document.getElementById("hold").classList.remove("hidden");
 };
 
 function winScreen() {
   document.getElementById("game-UI").classList.add("hidden");
   document.getElementById("score-board").classList.add("hidden");
   document.getElementById("win-screen").classList.remove("hidden");
+  document.getElementById("reset-btn").classList.remove("hidden");
   const playerOneScore = playerData.finalScores[1];
   const playerTwoScore = playerData.finalScores[2];
   const playerOneDisplay = document.getElementById("player-one-display");
@@ -146,6 +149,7 @@ function reset() {
   document.getElementById("score-board").classList.remove("hidden");
   document.getElementById("win-screen").classList.add("hidden");
   document.getElementById("play-with-AI").classList.add("hidden");
+  document.getElementById("reset-btn").classList.add("hidden");
   document.getElementById("roll-die").classList.remove("hidden");
   document.getElementById("hold").classList.remove("hidden");
   document.getElementById("player1-span").innerText = "0";
@@ -168,7 +172,6 @@ function displayDifficulty(event) {
   } else if (gameMode === "0") {
     document.querySelector("div#game-setup").classList.add("hidden")
   }
-  document.querySelector("div#player-creation").classList.remove("hidden")
 }
 
 function displayCreation(event) {
