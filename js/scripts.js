@@ -118,9 +118,10 @@ function winScreen() {
   }
 }
 function CPU() {
+  if (playerData.players[1].playerScore < 10 || playerData.players[1].playerScore === undefined) {
     rollDice();
-    endRound();
-  }; 
+  } else if (playerData.players[1].playerScore >= 10) {endRound()};
+}
 
 function reset() {
   document.getElementById("game-UI").classList.remove("hidden");

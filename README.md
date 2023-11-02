@@ -18,3 +18,12 @@ Code:
     endRound();
   }
 Expected Result: AI: Dice Number
+
+Test: "Roll the dice once per 'CPU round' event, automatically hold if score is bigger than 9"
+Code:
+  CPU() {
+  if (playerData.players[1].playerScore < 10 || playerData.players[1].playerScore === undefined) {
+    rollDice();
+  } else if (playerData.players[1].playerScore >= 10) {endRound()};
+}
+Expected Result: AI: >= 10 or 0
