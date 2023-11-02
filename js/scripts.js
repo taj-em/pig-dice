@@ -25,7 +25,6 @@ Player.prototype.calculate = function (id) {
       this.playerScore = 0;
     }
     this.keepScore();
-    console.log("ID: " + id + "; Score: " + this.playerScore);
   };
 };
 
@@ -118,22 +117,32 @@ function winScreen() {
   }
 }
 function CPU() {
-  if (playerData.players[1].playerScore < 10 || playerData.players[1].playerScore === undefined) {
+  const difficultyAi = document.querySelector("input[name='AI-difficulty']:checked").value;
+  if (difficultyAi === "1") {
     rollDice();
-  } else if (playerData.players[1].playerScore >= 10) {endRound()};
+    endRound();
+  } else if (difficultyAi === "2") {
+    if (playerData.players[1].playerScore < 10 || playerData.players[1].playerScore === undefined) {
+      rollDice();
+    } else if (playerData.players[1].playerScore >= 10) { endRound() };
+  } else if (difficultyAi === "3") {
+    if (playerData.players[1].playerScore < 25 || playerData.players[1].playerScore === undefined) {
+      rollDice();
+    } else if (playerData.players[1].playerScore >= 25) { endRound() };
+  }
 }
 
 function reset() {
   document.getElementById("game-UI").classList.remove("hidden");
-document.getElementById("score-board").classList.remove("hidden");
-document.getElementById("win-screen").classList.add("hidden");
-document.getElementById("player1-span").innerText = "0";
-document.getElementById("player2-span").innerText = "0";
-document.getElementById("player-one-display").innerText = "";
-document.getElementById("player-two-display").innerText = "";
-document.getElementById("winner-display").innerText = "";
-playerData.players[1].playerScore = undefined;
-playerData.players[2].playerScore = undefined;
+  document.getElementById("score-board").classList.remove("hidden");
+  document.getElementById("win-screen").classList.add("hidden");
+  document.getElementById("player1-span").innerText = "0";
+  document.getElementById("player2-span").innerText = "0";
+  document.getElementById("player-one-display").innerText = "";
+  document.getElementById("player-two-display").innerText = "";
+  document.getElementById("winner-display").innerText = "";
+  playerData.players[1].playerScore = undefined;
+  playerData.players[2].playerScore = undefined;
 }
 
 window.addEventListener("load", function () {
