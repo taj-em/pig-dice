@@ -29,15 +29,39 @@ Player.prototype.calculate = function (id) {
 };
 
 Player.prototype.keepScore = function () {
+  const gameVersion = document.querySelector("input[name='game-version']:checked").value;
   let diceNum = diceNumber();
-  if (diceNum === 1) {
-    this.playerScore = 0;
-    scoreBoard();
-    endRound();
-  } else if (diceNum !== 1) {
-    this.playerScore += diceNum;
-    scoreBoard();
-  };
+  let diceNum2 = diceNumber();
+  let x2PointsChance = perecentage();
+  if (gameVersion === "0") {
+    if (diceNum === 1) {
+      this.playerScore = 0;
+      scoreBoard();
+      endRound();
+    } else if (diceNum !== 1) {
+      if (x2PointsChance === 1) {
+        this.playerScore += diceNum;
+        scoreBoard();
+      } else if (x2PointsChance === 2) {
+        this.playerScore += diceNum * 2;
+        scoreBoard();
+      }
+    };
+  } else if (gameVersion === "1") {
+    if (diceNum === 1 || diceNum2 === 1) {
+      this.playerScore = 0;
+      scoreBoard();
+      endRound();
+    } else if (diceNum !== 1) {
+      if (x2PointsChance === 1) {
+        this.playerScore += diceNum + diceNum2;
+        scoreBoard();
+      } else if (x2PointsChance === 2) {
+        this.playerScore += ((diceNum + diceNum2) * 2);
+        scoreBoard();
+      }
+    };
+  }
 };
 
 
@@ -57,16 +81,26 @@ function diceNumber() {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
+function perecentage() {
+  min = Math.ceil(1);
+  max = Math.floor(2);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 function endRound() {
   document.getElementById("play-with-AI").classList.add("hidden");
   if (playerData.players[2].playerScore === undefined && playerData.players[1].playerScore !== undefined) {
     playerData.finalScores[1] = playerData.players[1].playerScore;
     playerData.players[1].playerScore = 0;
-    turnCPU();
+    if (document.querySelector("input[name='game-mode']:checked").value === "1") {
+      turnCPU();
+    }
   } else if (playerData.players[1].playerScore === undefined) {
     playerData.players[1].playerScore = 0;
     playerData.finalScores[1] = playerData.players[1].playerScore;
-    turnCPU();
+    if (document.querySelector("input[name='game-mode']:checked").value === "1") {
+      turnCPU();
+    }
   } else if (playerData.players[2].playerScore >= 0) {
     playerData.finalScores[2] = playerData.players[2].playerScore;
     playerData.players[2].playerScore = 0;
@@ -171,6 +205,8 @@ function displayDifficulty(event) {
     document.querySelector("div#difficulty").classList.remove("hidden")
   } else if (gameMode === "0") {
     document.querySelector("div#game-setup").classList.add("hidden")
+    document.querySelector("div#player-creation").classList.remove("hidden")
+    document.getElementById("play-with-AI").classList.add("hidden")
   }
 }
 
@@ -180,7 +216,14 @@ function displayCreation(event) {
   document.querySelector("div#player-creation").classList.remove("hidden")
 }
 
+function initialize(event) {
+  event.preventDefault();
+  document.querySelector("form#game-mode-form").classList.remove("hidden");
+  document.querySelector("form#game-version-form").classList.add("hidden");
+};
+
 window.addEventListener("load", function () {
+  this.document.querySelector("form#game-version-form").addEventListener("submit", initialize);
   this.document.querySelector("form#game-mode-form").addEventListener("submit", displayDifficulty);
   this.document.querySelector("form#difficulty-form").addEventListener("submit", displayCreation);
   this.document.querySelector("form#player-creation-form").addEventListener("submit", playerCreation);

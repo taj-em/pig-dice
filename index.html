@@ -13,11 +13,20 @@
 <body>
   <div class="container big-div">
     <div class="row">
-      <h1 id="title">Pig Dice</h1>
+      <h1 id="title">Shoot-Out</h1>
       <button id="reset-btn" class="hidden">Reset</button>
       <div id="game-setup" class="col">
         <div id="game-mode">
-          <form id="game-mode-form">
+          <form id="game-version-form">
+            <label for="shootout-one-die">One Die
+              <input type="radio" id="shootout-one-die" value="0" name="game-version" checked>
+            </label>
+            <label for="shootout-two-die">Two Die
+              <input type="radio" id="shootout-two-die" value="1" name="game-version">
+            </label>
+            <button type="submit">Confirm Game Mode</button>
+          </form>
+          <form id="game-mode-form" class="hidden">
             <label for="two-player">Player Vs. Player
               <input type="radio" id="two-player" value="0" name="game-mode" checked>
             </label>
