@@ -58,12 +58,15 @@ function diceNumber() {
 };
 
 function endRound() {
+  document.getElementById("play-with-AI").classList.add("hidden");
   if (playerData.players[2].playerScore === undefined && playerData.players[1].playerScore !== undefined) {
     playerData.finalScores[1] = playerData.players[1].playerScore;
     playerData.players[1].playerScore = 0;
+    turnCPU();
   } else if (playerData.players[1].playerScore === undefined) {
     playerData.players[1].playerScore = 0;
     playerData.finalScores[1] = playerData.players[1].playerScore;
+    turnCPU();
   } else if (playerData.players[2].playerScore >= 0) {
     playerData.finalScores[2] = playerData.players[2].playerScore;
     playerData.players[2].playerScore = 0;
@@ -72,6 +75,12 @@ function endRound() {
 };
 
 // UI Logic
+
+function turnCPU() {
+  document.getElementById("play-with-AI").classList.remove("hidden");
+  document.getElementById("roll-die").classList.add("hidden");
+  document.getElementById("hold").classList.add("hidden");
+}
 
 function scoreBoard() {
   const playerOneSpan = document.getElementById("player1-span");
@@ -136,6 +145,9 @@ function reset() {
   document.getElementById("game-UI").classList.remove("hidden");
   document.getElementById("score-board").classList.remove("hidden");
   document.getElementById("win-screen").classList.add("hidden");
+  document.getElementById("play-with-AI").classList.add("hidden");
+  document.getElementById("roll-die").classList.remove("hidden");
+  document.getElementById("hold").classList.remove("hidden");
   document.getElementById("player1-span").innerText = "0";
   document.getElementById("player2-span").innerText = "0";
   document.getElementById("player-one-display").innerText = "";
