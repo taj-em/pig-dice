@@ -20,16 +20,16 @@ function Player(playerName) {
 };
 
 Player.prototype.calculate = function (id) {
-  if (playerData.players[id].playerScore !== 0) {
-    if (playerData.players[id].playerScore === undefined) {
-      playerData.players[id].playerScore = 0;
+  if (this.playerScore !== 0) {
+    if (this.playerScore === undefined) {
+      this.playerScore = 0;
     }
-    playerData.players[id].keepScore(id);
-    console.log("ID: " + id + "; Score: " + playerData.players[id].playerScore);
+    this.keepScore();
+    console.log("ID: " + id + "; Score: " + this.playerScore);
   };
 };
 
-Player.prototype.keepScore = function (id) {
+Player.prototype.keepScore = function () {
   let diceNum = diceNumber();
   if (diceNum === 1) {
     this.playerScore = 0;
@@ -46,7 +46,7 @@ Player.prototype.keepScore = function (id) {
 
 let playerData = new PlayerData();
 
-function rollDice(event) {
+function rollDice() {
   if (playerData.players[1].playerScore === 0) {
     playerData.players[2].calculate(2);
   } else { playerData.players[1].calculate(1) };
@@ -58,7 +58,7 @@ function diceNumber() {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-function endRound(event) {
+function endRound() {
   if (playerData.players[2].playerScore === undefined && playerData.players[1].playerScore !== undefined) {
     playerData.finalScores[1] = playerData.players[1].playerScore;
     playerData.players[1].playerScore = 0;
@@ -81,20 +81,16 @@ function scoreBoard() {
     playerOneSpan.innerText = playerData.players[1].playerScore;
   } else if (playerData.players[2].playerScore) {
     playerTwoSpan.innerText = playerData.players[2].playerScore;
-  }
-}
+  };
+};
 function playerCreation(event) {
   event.preventDefault();
   const playerOneName = document.getElementById("player-one-name").value;
   const playerTwoName = document.getElementById("player-two-name").value;
-  const playAgainstAI = document.getElementById("play-with-AI").value;
   let playerOne = new Player(playerOneName);
   let playerTwo = new Player(playerTwoName);
   playerData.addPlayer(playerOne);
   playerData.addPlayer(playerTwo);
-  if (playAgainstAI === "1") {
-    console.log("Confirm AI selection");
-  }
   document.getElementById("player-one-heading").innerText = playerOneName + ": ";
   document.getElementById("player-two-heading").innerText = playerTwoName + ": ";
   document.getElementById("player1-span").innerText = "0";
@@ -121,8 +117,12 @@ function winScreen() {
     winnerDisplay.innerText = (playerData.players[2].playerName + " wins!!!");
   }
 }
+function CPU() {
+    rollDice();
+    endRound();
+  }; 
 
-function reset(event) {
+function reset() {
   document.getElementById("game-UI").classList.remove("hidden");
 document.getElementById("score-board").classList.remove("hidden");
 document.getElementById("win-screen").classList.add("hidden");
@@ -139,5 +139,6 @@ window.addEventListener("load", function () {
   this.document.querySelector("form").addEventListener("submit", playerCreation);
   this.document.querySelector("button#roll-die").addEventListener("click", rollDice);
   this.document.querySelector("button#hold").addEventListener("click", endRound);
+  this.document.querySelector("button#play-with-AI").addEventListener("click", CPU);
   this.document.querySelector("button#reset-btn").addEventListener("click", reset);
 });
