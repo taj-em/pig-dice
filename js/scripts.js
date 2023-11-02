@@ -122,13 +122,13 @@ function CPU() {
     rollDice();
     endRound();
   } else if (difficultyAi === "2") {
-    if (playerData.players[1].playerScore < 10 || playerData.players[1].playerScore === undefined) {
+    if (playerData.players[2].playerScore < 10 || playerData.players[2].playerScore === undefined) {
       rollDice();
-    } else if (playerData.players[1].playerScore >= 10) { endRound() };
+    } else if (playerData.players[2].playerScore >= 10) { endRound() };
   } else if (difficultyAi === "3") {
-    if (playerData.players[1].playerScore < 25 || playerData.players[1].playerScore === undefined) {
+    if (playerData.players[2].playerScore < 25 || playerData.players[2].playerScore === undefined) {
       rollDice();
-    } else if (playerData.players[1].playerScore >= 25) { endRound() };
+    } else if (playerData.players[2].playerScore >= 25) { endRound() };
   }
 }
 
@@ -145,8 +145,30 @@ function reset() {
   playerData.players[2].playerScore = undefined;
 }
 
+function displayDifficulty(event) {
+  event.preventDefault();
+  const gameMode = document.querySelector("input[name='game-mode']:checked").value
+  if (gameMode === "1") {
+    document.getElementById("player-two-name").value = "AI";
+    document.getElementById("player-two").classList.add("hidden");
+    document.querySelector("div#game-mode").classList.add("hidden")
+    document.querySelector("div#difficulty").classList.remove("hidden")
+  } else if (gameMode === "0") {
+    document.querySelector("div#game-setup").classList.add("hidden")
+  }
+  document.querySelector("div#player-creation").classList.remove("hidden")
+}
+
+function displayCreation(event) {
+  event.preventDefault();
+  document.querySelector("div#difficulty").classList.add("hidden")
+  document.querySelector("div#player-creation").classList.remove("hidden")
+}
+
 window.addEventListener("load", function () {
-  this.document.querySelector("form").addEventListener("submit", playerCreation);
+  this.document.querySelector("form#game-mode-form").addEventListener("submit", displayDifficulty);
+  this.document.querySelector("form#difficulty-form").addEventListener("submit", displayCreation);
+  this.document.querySelector("form#player-creation-form").addEventListener("submit", playerCreation);
   this.document.querySelector("button#roll-die").addEventListener("click", rollDice);
   this.document.querySelector("button#hold").addEventListener("click", endRound);
   this.document.querySelector("button#play-with-AI").addEventListener("click", CPU);

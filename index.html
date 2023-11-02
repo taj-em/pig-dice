@@ -12,8 +12,35 @@
 <body>
   <h1 id="title">Pig Dice</h1>
   <button id="reset-btn">Reset</button>
-  <div id="player-creation">
-    <form>
+  <div id="game-setup">
+    <div id="game-mode">
+      <form id="game-mode-form">
+        <label for="two-player">Player Vs. Player
+          <input type="radio" id="two-player" value="0" name="game-mode" checked>
+        </label>
+        <label for="vs-computer">Player Vs. CPU
+          <input type="radio" id="vs-computer" value="1" name="game-mode">
+        </label>
+        <button type="submit" id="confirm-game-mode">Confirm Game Mode</button>
+      </form>
+    </div>
+    <div id="difficulty" class="hidden">
+      <form id="difficulty-form">
+        <label for="easy">Easy CPU
+          <input type="radio" id="easy" value="1" name="AI-difficulty">
+        </label>
+        <label for="normal">Normal CPU
+          <input type="radio" id="normal" value="2" name="AI-difficulty" checked>
+        </label>
+        <label for="hard">Hard CPU
+          <input type="radio" id="hard" value="3" name="AI-difficulty">
+        </label>
+        <button type="submit" id="confirm-difficulty">Confirm Difficulty</button>
+      </form>
+    </div>
+  </div>
+  <div id="player-creation" class="hidden">
+    <form id="player-creation-form">
       <div id="player-one">
         <h2>Player #1</h2>
         <input id="player-one-name" type="text" placeholder="Enter Name:" required>
@@ -29,15 +56,6 @@
     <button id="roll-die">Roll Die</button>
     <button id="hold">Hold</button>
     <button id="play-with-AI" name="play-with-AI">CPU round</button>
-    <label for="easy">Easy CPU
-      <input type="radio" id="easy" value="1" name="AI-difficulty">
-      </label>
-      <label for="normal">Normal CPU
-      <input type="radio" id="normal" value="2" name="AI-difficulty" checked>
-      </label>
-      <label for="hard">Hard CPU
-      <input type="radio" id="hard" value="3" name="AI-difficulty">
-      </label>
   </div>
   <div id="score-board">
     <h3 id="player-one-heading"></h3><span id="player1-span"></span>
